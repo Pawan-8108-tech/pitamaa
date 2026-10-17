@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161d33"><link rel="manifest" href="manifest.json">
+<title>Tuition Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--n:#161d33;--n2:#232c48;--o:#f58a25;--c:#fff;--t:#161d33;--m:#6b7590;--b:#e4e8f1;--ok:#17a870;--bad:#e5484d;--r:20px}
+*{box-sizing:border-box}html,body{margin:0}
+body{font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--t);background:linear-gradient(160deg,#f4f6fb,#e6ebf5);min-height:100vh}
+body:not(.in) .app{display:none}.in #lg{display:none}
+#lg{position:fixed;inset:0;display:grid;place-items:center;padding:16px}
+#lg form{background:var(--c);border-radius:24px;padding:30px;width:min(380px,100%);display:grid;gap:12px;box-shadow:0 30px 70px #1b2a5522}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px}.logo img{height:38px;max-width:140px;object-fit:contain}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sb{background:var(--n);color:#c9d0e4;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+.sb .logo{color:#fff;margin:0 8px 22px}
+.nv{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:none;border:0;color:inherit;font:inherit;font-weight:500;cursor:pointer;text-align:left;transition:.2s}
+.nv:hover,.nv.on{background:var(--n2);color:#fff}.nv.on{box-shadow:inset 3px 0 var(--o)}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sp{flex:1}.main{padding:26px;max-width:1240px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em}h2{margin:0 0 14px;font-size:15px;font-weight:700}
+.mu{color:var(--m);font-size:13px}
+.card{background:var(--c);border-radius:var(--r);padding:20px;box-shadow:0 1px 2px #1b2a5510,0 12px 30px #1b2a5510;animation:fu .45s both}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}}@keyframes gw{from{width:0}}@keyframes gh{from{transform:scaleY(0)}}
+.bn{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.s3{grid-column:span 3}.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}
+.big{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:6px 0}
+.pg{height:10px;background:#edf0f7;border-radius:9px;overflow:hidden;margin:12px 0}.pg i{display:block;height:100%;background:linear-gradient(90deg,var(--o),#ffb25e);border-radius:9px;animation:gw .9s both}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.pl{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.up{background:#17a87018;color:var(--ok)}.dn{background:#e5484d18;color:var(--bad)}.nu{background:#6b759018;color:var(--m)}
+.Paid{background:#17a87018;color:var(--ok)}.Partial{background:#e8a31722;color:#b97d00}.Unpaid{background:#e5484d18;color:var(--bad)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:8px}
+.bars{display:flex;gap:10px;height:150px}.bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end}
+.bb{display:flex;gap:4px;align-items:flex-end;flex:1;width:100%;justify-content:center}.bb i{width:40%;max-width:22px;border-radius:7px 7px 3px 3px;transform-origin:bottom;animation:gh .8s both}
+.hb{margin:10px 0}.hb .pg{margin:4px 0;height:8px}
+input,select{background:#f4f6fb;border:1px solid var(--b);color:var(--t);border-radius:12px;padding:10px 12px;font:inherit;max-width:100%}
+input:focus,select:focus{outline:2px solid #f58a2566;border-color:var(--o)}
+.b{background:var(--c);border:1px solid var(--b);color:var(--t);border-radius:12px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;transition:.2s}
+.b:hover{transform:translateY(-1px);box-shadow:0 6px 16px #1b2a5518}.b.p{background:var(--o);border-color:var(--o);color:#fff}.b.s{padding:5px 11px;font-size:12px}.b.r{color:var(--bad)}
+.sc{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:720px}
+th{color:var(--m);font-weight:600;font-size:12px;text-align:left}th,td{padding:12px 8px;border-bottom:1px solid var(--b)}td .b{margin:2px}
+.em{color:var(--m);text-align:center;padding:18px}
+.hi{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--b);flex-wrap:wrap;align-items:center}
+.vw{display:none}.vw.on{display:block}.vw .card+.card{margin-top:16px}
+dialog{border:0;border-radius:22px;padding:24px;width:min(440px,92vw);box-shadow:0 30px 80px #0006;color:var(--t)}dialog::backdrop{background:#161d3399;backdrop-filter:blur(4px)}
+.fg{display:grid;gap:12px;grid-template-columns:1fr 1fr}.fg label{display:grid;gap:4px;color:var(--m);font-size:12px;font-weight:500}.fg .f{grid-column:1/-1}.fg input,.fg select{width:100%}
+.ac{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+@media(max-width:1000px){.s3,.s4{grid-column:span 6}.s5,.s7{grid-column:span 12}}
+@media(max-width:760px){
+.app{display:block}.sb{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;justify-content:space-around;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;gap:0}.sb .logo,.sp{display:none}
+.nv{flex-direction:column;gap:2px;font-size:11px;padding:8px 14px}.nv.on{box-shadow:none;color:var(--o);background:none}
+.main{padding:calc(16px + env(safe-area-inset-top,0px)) 14px 96px}h1{font-size:22px}.s3,.s4,.s5,.s7{grid-column:span 12}.big{font-size:30px}input,select{font-size:16px}
+table.rt{min-width:0}.rt tr:first-child{display:none}.rt,.rt tbody,.rt tr,.rt td{display:block;width:100%}
+.rt tr{background:#f7f9fd;border-radius:16px;padding:8px 14px;margin-bottom:10px}
+.rt td{display:flex;justify-content:space-between;align-items:center;gap:10px;border:0;padding:5px 0;text-align:right}
+.rt td::before{content:attr(data-l);color:var(--m);font-size:12px;text-align:left}
+.rt td.em{display:block;text-align:center}.rt td.em::before,.rt td.ac2::before{display:none}
+.rt td.ac2{flex-wrap:wrap;justify-content:flex-start;padding-top:8px}.rt td.ac2 .b{flex:1;min-width:70px;padding:8px 6px}}
+@media(max-width:420px){.fg{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+
+<div id="lg"><form onsubmit="login(event)"><div class="logo"><img src="logo.png" alt="" onerror="this.remove()"><span>Tuition Manager</span></div><p class="mu" style="margin:0">Sign in to your account</p>
+<input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><button class="b p">Login</button><p id="lm" class="mu" style="margin:0"></p></form></div>
+
+<div class="app"><aside class="sb"><div class="logo"><img src="logo.png" alt="" onerror="this.remove()"><span id="bn">Tuition</span></div>
+<button class="nv on" data-v="dash" onclick="go('dash')"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg>Dashboard</button>
+<button class="nv" data-v="stu" onclick="go('stu')"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M17 5a3 3 0 010 6M19 20c0-3-1-5-3-6"/></svg>Students</button>
+<button class="nv" data-v="fee" onclick="go('fee')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg>Fees</button>
+<div class="sp"></div><button class="nv" onclick="out()"><svg viewBox="0 0 24 24"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg>Logout</button></aside>
+
+<main class="main"><div class="top"><div><h1 id="ti">Dashboard</h1><div class="mu" id="hm"></div></div><div class="row"><input type="month" id="mo"><button class="b p" onclick="addS()">+ Add Student</button></div></div>
+<section class="vw on" id="v_dash"></section>
+<section class="vw" id="v_stu"><div class="card"><div class="row" style="flex-wrap:wrap"><h2 style="margin:0">All Students</h2><div class="row" style="flex-wrap:wrap"><input id="q" placeholder="Search name..." oninput="render()"><select id="cf" onchange="render()"></select></div></div><div class="sc" style="margin-top:12px"><table id="tb" class="rt"></table></div></div>
+<div class="card"><h2>Left Students</h2><div id="lf"></div></div></section>
+<section class="vw" id="v_fee"><div class="card"><h2>Monthly Report</h2><div class="sc"><table id="ms" class="rt"></table></div></div>
+<div class="card"><div class="row"><h2 id="ht" style="margin:0">Payment History</h2><button class="b s" id="hc" onclick="hs=null;render()" hidden>Show all</button></div><div id="hl" style="margin-top:8px"></div></div></section>
+</main></div>
+
+<dialog id="d1"><h2 id="d1t">Add Student</h2><form onsubmit="sv(event)"><div class="fg">
+<label class="f">Student name<input id="f_n" required></label>
+<label>Age<input id="f_a" type="number" min="1" max="60" required></label>
+<label>Gender<select id="f_g"><option>Male</option><option>Female</option></select></label>
+<label>Class<select id="f_c"></select></label>
+<label>Monthly fee (INR)<input id="f_f" type="number" min="0" required></label>
+<label>Phone (optional)<input id="f_p" type="tel"></label>
+<label>Joining month<input id="f_j" type="month" required></label></div>
+<div class="ac"><button type="button" class="b" onclick="d1.close()">Cancel</button><button class="b p">Save</button></div></form></dialog>
+<dialog id="d2"><h2>Record Fee</h2><p class="mu" id="pi"></p><form onsubmit="sp(event)"><div class="fg">
+<label>Amount received (INR)<input id="p_a" type="number" min="1" required></label>
+<label>Date<input id="p_d" type="date" required></label>
+<label class="f">Note (optional, e.g. half fee)<input id="p_n"></label></div>
+<div class="ac"><button type="button" class="b" onclick="$('p_a').value=due">Full due</button><button type="button" class="b" onclick="d2.close()">Cancel</button><button class="b p">Save</button></div></form></dialog>
+<dialog id="d3"><p id="cm"></p><div class="ac"><button class="b" onclick="d3.close()">No</button><button class="b p" id="cy">Yes</button></div></dialog>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+const CL=["LKG","UKG",...Array.from({length:12},(_,i)=>String(i+1)),"Not in school"];
+const $=id=>document.getElementById(id),F=k=>$("f_"+k);
+const ym=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+const td=()=>{const d=new Date();return ym(d)+"-"+String(d.getDate()).padStart(2,"0")};
+const mo=(m,k)=>{const d=new Date(m+"-01");d.setMonth(d.getMonth()+k);return ym(d)};
+let S=[],P=[],M=ym(new Date()),hs=null,eid=null,pid=null,due=0,U=null,unsub=null,t;
+const save=()=>{if(!U)return;clearTimeout(t);t=setTimeout(()=>db.doc("data/"+U.uid).set({S,P}).catch(e=>console.error(e)),300)};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rs=n=>"₹"+Number(n).toLocaleString("en-IN");
+const cn=c=>/^\d+$/.test(c)?"Class "+c:c;
+const mn=m=>new Date(m+"-01").toLocaleString("en-IN",{month:"short",year:"numeric"});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const paidOf=(id,m)=>P.filter(p=>p.sid===id&&p.m===m).reduce((a,p)=>a+p.amt,0);
+const act=m=>S.filter(s=>s.joined<=m&&(!s.left||m<s.left));
+const feeOf=(s,m)=>{const h=(s.fh||[{from:s.joined,fee:s.fee}]).filter(x=>x.from<=m);return h.length?h[h.length-1].fee:s.fee};
+const st=m=>{const a=act(m);let exp=0,pend=0,full=0,part=0,none=0;a.forEach(s=>{const f=feeOf(s,m),p=paidOf(s.id,m);exp+=f;pend+=Math.max(0,f-p);p>=f?full++:p>0?part++:none++});return{a,exp,pend,full,part,none,col:P.filter(p=>p.m===m).reduce((x,p)=>x+p.amt,0)}};
+const ask=(msg,fn)=>{$("cm").textContent=msg;$("cy").onclick=()=>{d3.close();fn()};d3.showModal()};
+const opts=a=>a.map(c=>`<option value="${c}">${cn(c)}</option>`).join("");
+F("c").innerHTML=opts(CL);$("cf").innerHTML='<option value="">All classes</option>'+opts(CL);
+$("mo").value=M;$("mo").onchange=e=>{M=e.target.value||M;render()};
+const T={dash:"Dashboard",stu:"Students",fee:"Fees & Reports"};
+function go(v){document.querySelectorAll(".vw").forEach(e=>e.classList.toggle("on",e.id==="v_"+v));document.querySelectorAll(".nv[data-v]").forEach(e=>e.classList.toggle("on",e.dataset.v===v));$("ti").textContent=T[v];window.scrollTo(0,0)}
+
+function rDash(){
+ const c=st(M),p=st(mo(M,-1)),boys=c.a.filter(s=>s.g==="Male").length,jn=S.filter(s=>s.joined===M).length,lf=S.filter(s=>s.left===M).length;
+ const pc=c.exp?Math.round(Math.min(100,c.col/c.exp*100)):0,dl=c.col-p.col;
+ const six=[-5,-4,-3,-2,-1,0].map(k=>{const m=mo(M,k),x=st(m);return{m,e:x.exp,r:x.col}}),mx=Math.max(1,...six.flatMap(x=>[x.e,x.r]));
+ const cls=CL.map(k=>[k,c.a.filter(s=>s.cls===k).length]).filter(x=>x[1]),cm=Math.max(1,...cls.map(x=>x[1]));
+ const pend=c.a.map(s=>({s,d:feeOf(s,M)-paidOf(s.id,M)})).filter(x=>x.d>0).sort((x,y)=>y.d-x.d).slice(0,6);
+ const rec=P.slice().sort((x,y)=>y.d.localeCompare(x.d)||y.id.localeCompare(x.id)).slice(0,6);
+ $("v_dash").innerHTML=`<div class="bn">
+<div class="card s5"><div class="mu">Fee collected · ${mn(M)}</div><div class="big">${rs(c.col)}</div><div class="mu">out of ${rs(c.exp)} total fee</div><div class="pg"><i style="width:${pc}%"></i></div><div class="row" style="flex-wrap:wrap"><span><b>${rs(c.pend)}</b> <span class="mu">pending · ${pc}% collected</span></span><span class="pl ${dl>0?"up":dl<0?"dn":"nu"}">${dl>0?"↑":dl<0?"↓":"•"} ${rs(Math.abs(dl))} vs last month</span></div></div>
+<div class="card s4"><div class="mu">Students · ${mn(M)}</div><div class="big">${c.a.length}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pl up">+${jn} joined</span><span class="pl dn">−${lf} left</span></div><div class="mu" style="margin-top:12px">${boys} boys · ${c.a.length-boys} girls</div></div>
+<div class="card s3"><div class="mu">Fee status</div><div class="row hb"><span><i class="dot" style="background:var(--ok)"></i>Paid</span><b>${c.full}</b></div><div class="row hb"><span><i class="dot" style="background:#e8a317"></i>Partial</span><b>${c.part}</b></div><div class="row hb"><span><i class="dot" style="background:var(--bad)"></i>Unpaid</span><b>${c.none}</b></div></div>
+<div class="card s7"><h2>Total fee vs received · last 6 months</h2><div class="bars">${six.map(x=>`<div class="bc" title="Total ${rs(x.e)} · Received ${rs(x.r)}"><div class="bb"><i style="height:${x.e/mx*100}%;background:#d5dbec"></i><i style="height:${x.r/mx*100}%;background:var(--o)"></i></div><span class="mu">${mn(x.m).slice(0,3)}</span></div>`).join("")}</div><div class="mu" style="margin-top:10px"><i class="dot" style="background:#d5dbec"></i>Total fee <i class="dot" style="background:var(--o);margin-left:12px"></i>Received</div></div>
+<div class="card s5"><h2>Students by class</h2>${cls.map(([k,n])=>`<div class="hb"><div class="row"><span>${cn(k)}</span><b>${n}</b></div><div class="pg"><i style="width:${n/cm*100}%"></i></div></div>`).join("")||'<div class="em">No students yet</div>'}</div>
+<div class="card s7"><h2>Pending fees · ${mn(M)}</h2>${pend.map(x=>`<div class="hi"><div><b>${esc(x.s.name)}</b><br><span class="mu">${cn(x.s.cls)}</span></div><div class="row"><b style="color:var(--bad)">${rs(x.d)}</b><button class="b s p" onclick="pay('${x.s.id}')">Pay</button></div></div>`).join("")||'<div class="em">Nothing pending 🎉</div>'}</div>
+<div class="card s5"><h2>Recent payments</h2>${rec.map(x=>`<div class="hi"><div><b>${esc(x.name)}</b><br><span class="mu">${x.d} · ${mn(x.m)}</span></div><b style="color:var(--ok)">${rs(x.amt)}</b></div>`).join("")||'<div class="em">No payments yet</div>'}</div></div>`}
+
+function rStu(){
+ const q=$("q").value.toLowerCase(),cf=$("cf").value,rows=act(M).filter(s=>s.name.toLowerCase().includes(q)&&(!cf||s.cls===cf));
+ $("tb").innerHTML='<tr><th>Name</th><th>Age</th><th>Gender</th><th>Class</th><th>Fee</th><th>Paid</th><th>Due</th><th>Status</th><th></th></tr>'+(rows.map(s=>{
+  const fe=feeOf(s,M),p=paidOf(s.id,M),sx=p>=fe?"Paid":p>0?"Partial":"Unpaid";
+  return `<tr><td data-l="Name"><b>${esc(s.name)}</b>${s.phone?`<br><small class="mu">${esc(s.phone)}</small>`:""}</td><td data-l="Age">${s.age}</td><td data-l="Gender">${s.g}</td><td data-l="Class">${cn(s.cls)}</td><td data-l="Fee">${rs(fe)}</td><td data-l="Paid">${rs(p)}</td><td data-l="Due">${rs(Math.max(0,fe-p))}</td><td data-l="Status"><span class="pl ${sx}">${sx}</span></td><td class="ac2"><button class="b s p" onclick="pay('${s.id}')">Pay</button><button class="b s" onclick="hist('${s.id}')">History</button><button class="b s" onclick="edS('${s.id}')">Edit</button><button class="b s r" onclick="leave('${s.id}')">Left</button></td></tr>`}).join("")||'<tr><td colspan="9" class="em">No students for this month. Click "+ Add Student".</td></tr>');
+ $("lf").innerHTML=S.filter(s=>s.left).map(s=>`<div class="hi"><div><b>${esc(s.name)}</b> · ${cn(s.cls)}<br><span class="mu">Left from ${mn(s.left)}. Not counted from that month onward.</span></div><div><button class="b s" onclick="rejoin('${s.id}')">Rejoin</button><button class="b s r" onclick="delS('${s.id}')">Delete forever</button></div></div>`).join("")||'<div class="em">No student has left.</div>'}
+
+function rFee(){
+ const ms=[...S.map(s=>s.joined),...P.map(p=>p.m),M].sort(),cur=ym(new Date()),o=[];for(let m=ms[0];m<=cur;m=mo(m,1))o.push(m);if(!o.length)o.push(M);
+ $("ms").innerHTML='<tr><th>Month</th><th>Students</th><th>Joined</th><th>Left</th><th>Total fee</th><th>Received</th><th>Pending</th></tr>'+o.reverse().map(m=>{const x=st(m);
+  return `<tr style="cursor:pointer" onclick="M='${m}';$('mo').value=M;go('dash');render()"><td data-l="Month"><b>${mn(m)}</b></td><td data-l="Students">${x.a.length}</td><td data-l="Joined">${S.filter(s=>s.joined===m).length}</td><td data-l="Left">${S.filter(s=>s.left===m).length}</td><td data-l="Total fee">${rs(x.exp)}</td><td data-l="Received" style="color:var(--ok)">${rs(x.col)}</td><td data-l="Pending" style="color:var(--bad)">${rs(x.pend)}</td></tr>`}).join("");
+ const h=P.filter(p=>!hs||p.sid===hs).sort((x,y)=>y.d.localeCompare(x.d)||y.id.localeCompare(x.id)).slice(0,80),hn=hs&&S.find(s=>s.id===hs);
+ $("ht").textContent="Payment History"+(hn?" · "+hn.name:"");$("hc").hidden=!hs;
+ $("hl").innerHTML=h.map(p=>`<div class="hi"><div><b>${esc(p.name)}</b> paid <b style="color:var(--ok)">${rs(p.amt)}</b> for ${mn(p.m)}<br><span class="mu">${p.d}${p.n?" · "+esc(p.n):""}</span></div><button class="b s r" onclick="delP('${p.id}')">Remove</button></div>`).join("")||'<div class="em">No payments recorded yet.</div>'}
+function render(){rDash();rStu();rFee()}
+
+function addS(){eid=null;$("d1t").textContent="Add Student";["n","a","f","p"].forEach(k=>F(k).value="");F("g").value="Male";F("c").value="LKG";F("j").value=M;d1.showModal()}
+function edS(id){const s=S.find(x=>x.id===id);eid=id;$("d1t").textContent="Edit Student · new fee applies from "+mn(M);F("n").value=s.name;F("a").value=s.age;F("g").value=s.g;F("c").value=s.cls;F("f").value=feeOf(s,M);F("p").value=s.phone||"";F("j").value=s.joined;d1.showModal()}
+function sv(e){e.preventDefault();const o={name:F("n").value.trim(),age:+F("a").value,g:F("g").value,cls:F("c").value,fee:+F("f").value,phone:F("p").value.trim(),joined:F("j").value};
+ if(eid){const s=S.find(x=>x.id===eid),h=(s.fh||[{from:s.joined,fee:s.fee}]).slice(),old=feeOf(s,M);Object.assign(s,o);if(o.fee!==old){const k=h.findIndex(x=>x.from===M);k>=0?h[k].fee=o.fee:h.push({from:M,fee:o.fee});h.sort((x,y)=>x.from.localeCompare(y.from))}s.fh=h}else S.push({id:uid(),...o,fh:[{from:o.joined,fee:o.fee}]});
+ save();d1.close();render()}
+function leave(id){const s=S.find(x=>x.id===id);ask(s.name+" leaves from "+mn(M)+"? Fee will not count from this month onward. Earlier months stay the same.",()=>{s.left=M;save();render()})}
+function rejoin(id){const s=S.find(x=>x.id===id);delete s.left;save();render()}
+function delS(id){const s=S.find(x=>x.id===id);ask("Delete "+s.name+" forever? Use this only for a wrong entry, because past months' totals will change.",()=>{S=S.filter(x=>x.id!==id);if(hs===id)hs=null;save();render()})}
+function pay(id){const s=S.find(x=>x.id===id),p=paidOf(id,M);pid=id;due=Math.max(0,feeOf(s,M)-p);
+ $("pi").textContent=s.name+" · "+mn(M)+" · Fee "+rs(feeOf(s,M))+" · Paid "+rs(p)+" · Due "+rs(due);$("p_a").value=due||"";$("p_d").value=td();$("p_n").value="";d2.showModal()}
+function sp(e){e.preventDefault();const s=S.find(x=>x.id===pid);P.push({id:uid(),sid:pid,name:s.name,m:M,amt:+$("p_a").value,d:$("p_d").value,n:$("p_n").value.trim()});save();d2.close();render()}
+function delP(id){ask("Remove this payment record?",()=>{P=P.filter(p=>p.id!==id);save();render()})}
+function hist(id){hs=id;render();go("fee")}
+
+firebase.initializeApp(FB);const au=firebase.auth(),db=firebase.firestore();
+let dev=null;try{dev=localStorage.getItem("tc_dev");if(!dev){dev=uid();localStorage.setItem("tc_dev",dev)}}catch(e){dev=dev||uid()}
+const fail=m=>{$("lm").textContent=m;if(unsub)unsub();U=null;au.signOut()};
+async function login(e){e.preventDefault();$("lm").textContent="Signing in...";try{await au.signInWithEmailAndPassword($("em").value,$("pw").value)}catch(x){$("lm").textContent="Wrong email or password."}}
+const out=()=>{if(unsub)unsub();U=null;au.signOut()};
+au.onAuthStateChanged(async u=>{
+ if(!u){U=null;document.body.classList.remove("in");return}
+ try{
+  const a=await db.doc("accounts/"+u.uid).get();if(!a.exists)throw"no";
+  const A=a.data(),ex=A.expiry.toDate();if(!A.active||ex<new Date())throw"exp";
+  const dr=db.collection("devices/"+u.uid+"/list"),ds=await dr.get();
+  if(!ds.docs.some(d=>d.id===dev)&&ds.size>=(A.maxDevices||2))throw"dev";
+  await dr.doc(dev).set({name:navigator.userAgent.slice(0,90),last:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+  U=u;$("bn").textContent=A.name||"Tuition";document.title=(A.name||"Tuition")+" · Manager";
+  const left=Math.ceil((ex-new Date())/864e5);
+  $("hm").textContent=(A.name||"")+" · valid till "+ex.toLocaleDateString("en-IN")+(left<=7?" · expires in "+left+" days, please renew":"");
+  let seen=false;dr.doc(dev).onSnapshot(s=>{if(s.exists)seen=true;else if(seen)fail("You were logged out by the admin.")});
+  unsub=db.doc("data/"+u.uid).onSnapshot(s=>{const d=s.data()||{};S=d.S||[];P=d.P||[];render()},()=>fail("Access blocked. Contact "+CONTACT));
+  document.body.classList.add("in");render();
+ }catch(x){fail({no:"Account not set up. Contact "+CONTACT,exp:"Subscription expired. Contact "+CONTACT,dev:"Device limit reached. Contact "+CONTACT}[x]||"Something went wrong. Please try again.")}
+});
+render();
+</script></body></html>

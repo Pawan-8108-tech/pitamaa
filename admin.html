@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--n:#161d33;--o:#f58a25;--c:#fff;--t:#161d33;--m:#6b7590;--b:#e4e8f1;--ok:#17a870;--bad:#e5484d}
+*{box-sizing:border-box}html,body{margin:0}
+body{font:14px/1.5 Inter,system-ui,sans-serif;color:var(--t);background:linear-gradient(160deg,#f4f6fb,#e6ebf5);min-height:100vh}
+.w{max-width:1100px;margin:0 auto;padding:22px 16px;display:grid;gap:16px}
+.card{background:var(--c);border-radius:20px;padding:20px;box-shadow:0 1px 2px #1b2a5510,0 12px 30px #1b2a5510}
+h1{margin:0;font-size:24px;font-weight:800}h2{margin:0 0 12px;font-size:15px}.mu{color:var(--m);font-size:13px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+input,textarea{background:#f4f6fb;border:1px solid var(--b);border-radius:12px;padding:10px 12px;font:inherit;max-width:100%}
+.b{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:7px 13px;font:inherit;font-weight:600;cursor:pointer}.b:hover{box-shadow:0 6px 16px #1b2a5518}.b.p{background:var(--o);border-color:var(--o);color:#fff}.b.r{color:var(--bad)}
+.pl{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}.ok{background:#17a87018;color:var(--ok)}.no{background:#e5484d18;color:var(--bad)}
+.g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.dv{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--b);font-size:12px;align-items:center}
+.ac{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#lg{min-height:100vh;display:grid;place-items:center;padding:16px}#lg form{background:#fff;border-radius:24px;padding:28px;width:min(360px,100%);display:grid;gap:12px}
+dialog{border:0;border-radius:20px;padding:22px;width:min(560px,94vw)}dialog::backdrop{background:#161d3399}
+</style></head><body>
+<div id="lg"><form onsubmit="login(event)"><h1>Admin Login</h1><input id="em" type="email" placeholder="Admin email" required><input id="pw" type="password" placeholder="Password" required><button class="b p">Login</button><p id="lm" class="mu" style="margin:0"></p></form></div>
+<div class="w" id="ad" hidden>
+<div class="row"><div><h1>Admin Panel</h1><div class="mu" id="sm"></div></div><div><button class="b" onclick="load()">Refresh</button> <button class="b" onclick="au.signOut()">Logout</button></div></div>
+<div class="card"><h2>Add new tuition</h2><div class="g"><input id="n_n" placeholder="Tuition name"><input id="n_e" type="email" placeholder="Login email"><input id="n_p" type="text" placeholder="Password (min 6)"><input id="n_d" type="number" value="30" placeholder="Valid days"><input id="n_m" type="number" value="2" placeholder="Max devices"></div><div class="ac"><button class="b p" onclick="add()">Create account</button><span class="mu" id="am"></span></div></div>
+<div id="ls"></div></div>
+<dialog id="dx"><h2>Customer data</h2><p class="mu">Copy this text to keep a backup. To restore, paste a backup here and press Restore.</p><textarea id="bx" rows="9" style="width:100%"></textarea><div class="ac"><button class="b" onclick="dx.close()">Close</button><button class="b" onclick="bx.select();document.execCommand('copy')">Copy</button><button class="b p" onclick="rst()">Restore</button></div></dialog>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+firebase.initializeApp(FB);const au=firebase.auth(),db=firebase.firestore(),sec=firebase.initializeApp(FB,"sec"),TS=firebase.firestore.Timestamp;let cur=null;
+async function login(e){e.preventDefault();$("lm").textContent="Signing in...";try{await au.signInWithEmailAndPassword($("em").value,$("pw").value)}catch(x){$("lm").textContent="Wrong email or password."}}
+au.onAuthStateChanged(async u=>{
+ if(!u){$("lg").hidden=false;$("ad").hidden=true;return}
+ const a=await db.doc("admins/"+u.uid).get();
+ if(!a.exists){$("lm").textContent="This account is not an admin.";au.signOut();return}
+ $("lg").hidden=true;$("ad").hidden=false;load()});
+async function load(){
+ const q=await db.collection("accounts").get(),now=new Date();let h="",ok=0,bad=0;
+ for(const d of q.docs){const A=d.data(),ex=A.expiry.toDate(),live=A.active&&ex>now;live?ok++:bad++;
+  const [dv,dt]=await Promise.all([db.collection("devices/"+d.id+"/list").get(),db.doc("data/"+d.id).get()]),n=((dt.data()||{}).S||[]).length;
+  h+=`<div class="card"><div class="row"><div><b style="font-size:17px">${esc(A.name||"-")}</b><br><span class="mu">${esc(A.email||"")}</span></div><span class="pl ${live?"ok":"no"}">${!A.active?"Blocked":ex<=now?"Expired":"Active"}</span></div>
+<div class="g" style="margin-top:12px"><div><span class="mu">Valid till</span><br><b>${ex.toLocaleDateString("en-IN")}</b></div><div><span class="mu">Students</span><br><b>${n}</b></div><div><span class="mu">Devices logged in</span><br><b>${dv.size} / ${A.maxDevices||2}</b></div></div>
+<div style="margin-top:10px">${dv.docs.map(x=>{const v=x.data();return `<div class="dv"><span>${esc((v.name||"").slice(0,70))}<br><span class="mu">Last seen ${v.last?v.last.toDate().toLocaleString("en-IN"):"-"}</span></span><button class="b r" onclick="kick('${d.id}','${x.id}')">Log out</button></div>`}).join("")||'<div class="mu">No device logged in yet.</div>'}</div>
+<div class="ac"><button class="b" onclick="ext('${d.id}',30)">+30 days</button><button class="b" onclick="ext('${d.id}',90)">+90 days</button><button class="b" onclick="ext('${d.id}',365)">+1 year</button><button class="b ${A.active?"r":"p"}" onclick="tog('${d.id}',${!A.active})">${A.active?"Block":"Unblock"}</button><button class="b" onclick="mx('${d.id}')">Max devices</button><button class="b" onclick="rp('${esc(A.email||"")}')">Reset password</button><button class="b" onclick="xp('${d.id}')">Export / Restore data</button><button class="b r" onclick="wipe('${d.id}')">Delete data</button></div></div>`}
+ $("ls").innerHTML=`<div style="display:grid;gap:16px">${h||'<div class="card mu">No tuition accounts yet. Add one above.</div>'}</div>`;$("sm").textContent=q.size+" accounts · "+ok+" active · "+bad+" expired or blocked"}
+async function add(){const n=$("n_n").value.trim(),e=$("n_e").value.trim(),p=$("n_p").value,d=+$("n_d").value||30,m=+$("n_m").value||2;
+ if(!n||!e||p.length<6){$("am").textContent="Fill name, email and a password of 6+ characters.";return}
+ try{const c=await sec.auth().createUserWithEmailAndPassword(e,p);await sec.auth().signOut();
+  await db.doc("accounts/"+c.user.uid).set({name:n,email:e,active:true,maxDevices:m,expiry:TS.fromMillis(Date.now()+d*864e5)});
+  $("am").textContent="Created. Share the email and password with the tuition.";["n_n","n_e","n_p"].forEach(k=>$(k).value="");load()}catch(x){$("am").textContent=x.message}}
+async function ext(id,d){const r=db.doc("accounts/"+id),A=(await r.get()).data();await r.update({expiry:TS.fromMillis(Math.max(Date.now(),A.expiry.toMillis())+d*864e5)});load()}
+async function tog(id,v){await db.doc("accounts/"+id).update({active:v});load()}
+async function mx(id){const v=prompt("Maximum devices allowed?");if(v&&+v>0){await db.doc("accounts/"+id).update({maxDevices:+v});load()}}
+async function kick(id,dv){await db.doc("devices/"+id+"/list/"+dv).delete();load()}
+function rp(e){au.sendPasswordResetEmail(e).then(()=>alert("Password reset email sent to "+e)).catch(x=>alert(x.message))}
+async function xp(id){cur=id;const d=await db.doc("data/"+id).get();$("bx").value=JSON.stringify(d.data()||{S:[],P:[]});dx.showModal()}
+async function rst(){try{const o=JSON.parse($("bx").value);if(!Array.isArray(o.S)||!Array.isArray(o.P))throw 0;await db.doc("data/"+cur).set({S:o.S,P:o.P});dx.close();load()}catch(e){alert("Invalid backup text")}}
+async function wipe(id){if(confirm("Delete ALL data of this customer? Export a backup first. This cannot be undone.")){await db.doc("data/"+id).delete();load()}}
+</script></body></html>
