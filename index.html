@@ -2,12 +2,11 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#161d33"><link rel="manifest" href="manifest.json">
-<title>Tuition Manager</title>
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>PiताMaa</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <style>
 :root{--n:#161d33;--n2:#232c48;--o:#f58a25;--c:#fff;--t:#161d33;--m:#6b7590;--b:#e4e8f1;--ok:#17a870;--bad:#e5484d;--r:20px}
 *{box-sizing:border-box}html,body{margin:0}
@@ -67,10 +66,10 @@ table.rt{min-width:0}.rt tr:first-child{display:none}.rt,.rt tbody,.rt tr,.rt td
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 
-<div id="lg"><form onsubmit="login(event)"><div class="logo"><img src="logo.png" alt="" onerror="this.remove()"><span>Tuition Manager</span></div><p class="mu" style="margin:0">Sign in to your account</p>
+<div id="lg"><form onsubmit="login(event)"><div class="logo"><img src="android-chrome-192x192.png" alt="" onerror="this.remove()"><span>PiताMaa</span></div><p class="mu" style="margin:0">Sign in to your account</p>
 <input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><button class="b p">Login</button><p id="lm" class="mu" style="margin:0"></p></form></div>
 
-<div class="app"><aside class="sb"><div class="logo"><img src="logo.png" alt="" onerror="this.remove()"><span id="bn">Tuition</span></div>
+<div class="app"><aside class="sb"><div class="logo"><img src="android-chrome-192x192.png" alt="" onerror="this.remove()"><span id="bn">Tuition</span></div>
 <button class="nv on" data-v="dash" onclick="go('dash')"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg>Dashboard</button>
 <button class="nv" data-v="stu" onclick="go('stu')"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M17 5a3 3 0 010 6M19 20c0-3-1-5-3-6"/></svg>Students</button>
 <button class="nv" data-v="fee" onclick="go('fee')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg>Fees</button>
@@ -187,7 +186,7 @@ au.onAuthStateChanged(async u=>{
   const dr=db.collection("devices/"+u.uid+"/list"),ds=await dr.get();
   if(!ds.docs.some(d=>d.id===dev)&&ds.size>=(A.maxDevices||2))throw"dev";
   await dr.doc(dev).set({name:navigator.userAgent.slice(0,90),last:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-  U=u;$("bn").textContent=A.name||"Tuition";document.title=(A.name||"Tuition")+" · Manager";
+  U=u;$("bn").textContent=A.name||"Tuition";document.title="PiताMaa";
   const left=Math.ceil((ex-new Date())/864e5);
   $("hm").textContent=(A.name||"")+" · valid till "+ex.toLocaleDateString("en-IN")+(left<=7?" · expires in "+left+" days, please renew":"");
   let seen=false;dr.doc(dev).onSnapshot(s=>{if(s.exists)seen=true;else if(seen)fail("You were logged out by the admin.")});
